@@ -24,7 +24,11 @@ module Skunk
 			def as_str
 				return "#{@group}.#{@name}:#{@version}"
 			end
-			
+
+      # Checks if this artifact exists in the given repository.
+      def exists_in(repo)
+        return repo.check(self)
+      end
 		end
 	end
 end

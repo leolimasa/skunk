@@ -12,6 +12,8 @@ module Skunk
 				attr_accessor :inflate_package_artifact
 				attr_accessor :artifact_exists
 				attr_accessor :package_folder
+        attr_accessor :installed_packages
+        attr_accessor :dependencies
 
 				def initialize
 					@check_artifact = nil
@@ -20,6 +22,8 @@ module Skunk
 					@inflate_package_artifact = nil
 					@artifact_exists = true
 					@package_folder = "/my/folder"
+          @dependencies = []
+          @installed_packages = []
 				end
 
 				def check(artifact)
@@ -29,18 +33,30 @@ module Skunk
 
 				def install_package(artifact)
 					@install_package_artifact = artifact
+          @installed_packages.push(artifact)
 				end
 
 				def create_empty_package(artifact)
 					pkg = Package.new
 					pkg.folder = @package_folder
+          pkg.name = artifact.name
+          pkg.group = artifact.group
+          pkg.version = artifact.version
 					@create_empty_package_artifact = artifact
           return pkg
-				end
+        end
+
+        def get_package_for(artifact)
+          return create_empty_package(artifact)
+        end
 
 				def inflate_package(package)
 					@inflate_package_artifact = package
-				end
+        end
+
+        def dependencies_for(artifact)
+          return @dependencies
+        end
 			end
 		end
 	end

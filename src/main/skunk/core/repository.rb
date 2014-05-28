@@ -21,7 +21,12 @@ module Skunk
 			# version, and group. The package.folder variable will be set.
 			def create_empty_package(package)
 				raise "create_empty_package() not implemented"
-			end
+      end
+
+      # Abstract. Creates a new package object given an artifact
+      def get_package_from(artifact)
+        raise "get_package_from() not implemented"
+      end
 
 			# Abstract. Downloads and fills the folder specified by 
 			# package.folder with contents. Will also fill the package's 
@@ -29,7 +34,11 @@ module Skunk
 			def inflate_package(package)
 				raise "inflate_package() not implemented"
 			end
-			
+
+      # Abstract. Returns an array of all the dependencies for an artifact.
+      def dependencies_for(artifact)
+        raise "dependencies_for() not implemented"
+      end
 		end
 	end
 end
