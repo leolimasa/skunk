@@ -1,4 +1,5 @@
 require 'skunk/core/package'
+require 'rbconfig'
 
 module Skunk
 	module Core
@@ -98,6 +99,30 @@ module Skunk
       # working repository
       def install_dependencies
         @dependencies.each { |d| install_dependency(d)}
+      end
+
+      # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+      # Returns an array with all the folders where the packages reside
+      def dependencies_path
+        path = []
+        @installed_packages.each do |p|
+          path.push(p.folder)
+        end
+        return path
+      end
+
+      # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+      # Returns a string with the path to all the installed packages, with the
+      # delimiter set correctly for the operational system.
+      def dependencies_path_str
+        is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
+        sep = ":"
+        if is_windows
+          sep = ";"
+        end
+        return dependencies_path.join(sep)
       end
     end
 	end
